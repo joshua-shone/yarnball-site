@@ -1,0 +1,13 @@
+[Service]
+ExecStart=/usr/bin/node /home/yarnball/src/yarnball/dist/server/server.js
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=yarnball-server
+User=yarnball
+Group=yarnball
+Environment=NODE_ENV=production
+WorkingDirectory=/home/yarnball/src/yarnball/dist/server/
+
+[Install]
+WantedBy=multi-user.target
