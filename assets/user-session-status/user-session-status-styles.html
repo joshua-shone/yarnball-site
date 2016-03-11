@@ -1,0 +1,65 @@
+<dom-module id="user-session-status-styles">
+<template>
+<style>
+:host {
+  display: flex;
+  flex-direction: row;
+  padding: 10px; }
+  :host paper-button {
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    height: 50px;
+    padding-top: 16px;
+    text-transform: none; }
+  :host #signupButton,
+  :host #loginButton,
+  :host #logoutButton,
+  :host #user {
+    display: none; }
+
+:host.no-session #signupButton {
+  display: inline-block;
+  background-color: #78a4da;
+  color: #fff; }
+
+:host.no-session #signupButton:hover {
+  background-color: #9ABFEC; }
+
+:host.no-session #loginButton {
+  display: inline-block;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #888; }
+
+:host.no-session #loginButton:hover {
+  background-color: #8C8C8C;
+  color: #fff; }
+
+:host.has-session #logoutButton {
+  display: inline-block;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #888; }
+
+:host.has-session #logoutButton:hover {
+  background-color: #8C8C8C;
+  color: #fff; }
+
+:host.has-session #user {
+  display: inline-block;
+  padding: 10px;
+  border-radius: 4px;
+  color: #333;
+  cursor: pointer; }
+  :host.has-session #user #username {
+    font-size: 22px;
+    margin-right: 4px; }
+
+:host.has-session #user:hover {
+  background-color: #E2F4FF; }
+
+</style>
+</template>
+</dom-module>

@@ -7,21 +7,25 @@
     
     <title>Yarnball</title>
     
-    <link rel="icon" href="/favicon.png">
+    <link rel="icon" href="/assets/favicon.png">
     
     <meta name="viewport" content="width=device-width, user-scalable=no">
     
     <link rel="stylesheet" href="/bower_components/normalize-css/normalize.css">
     
-    <link rel="stylesheet" href="/style.css">
-    <link href='https://fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/assets/style.css">
+    
+    <link href='https://fonts.googleapis.com/css?family=Lora'          rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans'     rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css'>
     
     <script src="/bower_components/requirejs/require.js"></script>
     <script>
       require.config({
         baseUrl: '/bower_components',
+        paths: {
+          assets: '/assets',
+        },
       });
     </script>
     
@@ -29,12 +33,12 @@
     
     <link rel="import" href="/bower_components/iron-pages/iron-pages.html">
     
-    <link rel="import" href="/landing-page/landing-page.html">
-    <link rel="import" href="/scratchpad/scratchpad.html">
-    <link rel="import" href="/login/login.html">
-    <link rel="import" href="/signup/signup.html">
-    <link rel="import" href="/user/user.html">
-    <link rel="import" href="/user-surface/user-surface.html">
+    <link rel="import" href="/assets/landing-page/landing-page.html">
+    <link rel="import" href="/assets/scratchpad/scratchpad.html">
+    <link rel="import" href="/assets/login/login.html">
+    <link rel="import" href="/assets/signup/signup.html">
+    <link rel="import" href="/assets/user/user.html">
+    <link rel="import" href="/assets/user-surface/user-surface.html">
     
     <link rel="import" href="/bower_components/yarnball/widgets/socketio/socketio-status.html">
     

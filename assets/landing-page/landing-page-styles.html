@@ -1,0 +1,290 @@
+<dom-module id="landing-page-styles">
+<template>
+<style>
+:host #userSessionStatus {
+  position: fixed;
+  top: 0;
+  right: 10px; }
+
+:host .top-panel-button {
+  position: fixed;
+  z-index: 100;
+  top: 10px;
+  height: 50px;
+  padding-top: 16px;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-transform: none; }
+
+:host #signup-button {
+  right: 120px;
+  background-color: #78a4da;
+  color: #fff; }
+
+:host #signup-button:hover {
+  background-color: #9ABFEC; }
+
+:host #login-button {
+  right: 20px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #888; }
+
+:host #login-button:hover {
+  background-color: #8C8C8C;
+  color: #fff; }
+
+:host section.title {
+  display: block;
+  background: url(logo.svg) no-repeat 50% 0;
+  background-size: 480px;
+  color: #fff;
+  text-align: center;
+  height: 410px;
+  padding-bottom: 0; }
+  @media (max-width: 480px) {
+    :host section.title {
+      background-size: 300px;
+      height: 256px; } }
+  :host section.title .title {
+    position: absolute;
+    left: 50%;
+    top: 278px;
+    margin-left: -104px;
+    font-size: 65px;
+    font-family: 'Lora', serif;
+    color: #808080; }
+    @media (max-width: 480px) {
+      :host section.title .title {
+        font-size: 44px;
+        margin-left: -62px;
+        top: 170px; } }
+  :host section.title .beta-label {
+    position: absolute;
+    left: 50%;
+    top: 346px;
+    margin-left: 68px;
+    font-weight: bold;
+    font-size: 22px;
+    background-color: #AF0800;
+    color: #fff;
+    border-radius: 5px;
+    padding: 1px;
+    padding-left: 4px;
+    padding-right: 4px; }
+    @media (max-width: 480px) {
+      :host section.title .beta-label {
+        font-size: 14px;
+        margin-left: 53px;
+        top: 217px; } }
+
+:host section.title::after {
+  content: "";
+  clear: both;
+  display: block; }
+
+:host section.hero {
+  background: #282937;
+  position: relative;
+  margin-bottom: 25px;
+  padding-top: 20px;
+  padding-bottom: 20px; }
+  :host section.hero .hero-triple {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%; }
+  :host section.hero .hero-connector {
+    position: absolute;
+    left: 50%;
+    margin-left: -267px;
+    margin-top: 80px;
+    width: 535px;
+    height: 175px;
+    background: url(hero-connector.svg); }
+  :host section.hero .hero-node {
+    display: inline-block;
+    position: absolute;
+    left: 50%;
+    transform: scale(1.35);
+    pointer-events: none; }
+  :host section.hero .hero-node1 {
+    margin-left: -290px;
+    margin-top: 190px; }
+  :host section.hero .hero-node2 {
+    margin-left: -20px;
+    margin-top: 80px; }
+  :host section.hero .hero-node3 {
+    margin-left: 230px;
+    margin-top: 150px; }
+  :host section.hero .hero-text {
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 62px;
+    color: #fff;
+    position: absolute;
+    left: 50%;
+    white-space: nowrap; }
+  :host section.hero .hero-text1 {
+    margin-left: -160px;
+    margin-top: -20px; }
+  :host section.hero .hero-text2 {
+    margin-left: -50px;
+    margin-top: 60px;
+    font-size: 36px;
+    color: #ffcb6c; }
+  :host section.hero .hero-button-container {
+    position: absolute;
+    right: 15px;
+    top: 100px; }
+    @media (max-width: 1200px) {
+      :host section.hero .hero-button-container {
+        position: static;
+        margin-top: 10px; } }
+  :host section.hero .hero-button {
+    display: block;
+    width: 150px;
+    padding: 10px;
+    padding-left: 14px;
+    padding-right: 14px;
+    font-size: 25px;
+    text-decoration: initial;
+    border-radius: 5px;
+    background-color: #666779;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 10px; }
+    :host section.hero .hero-button > iron-icon {
+      width: 40px;
+      height: 40px;
+      margin: -10px; }
+    @media (max-width: 1200px) {
+      :host section.hero .hero-button {
+        display: block;
+        width: 100%;
+        border-radius: 0; } }
+  :host section.hero .hero-button:hover {
+    background-color: #6e6f83; }
+  :host section.hero .hero-blurb {
+    background-color: #363748;
+    color: #8b8b8b;
+    font-size: 22px;
+    padding: 5px;
+    display: block;
+    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 700px;
+    margin-top: 20px; }
+
+:host p {
+  font-family: 'Open Sans', sans-serif;
+  color: #333;
+  margin-top: 0.7em;
+  margin-bottom: 0.7em; }
+
+:host p:before {
+  content: "";
+  width: 10em;
+  display: block;
+  overflow: hidden; }
+
+:host .intro-label {
+  color: #777;
+  background-color: #FFFADA;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 25px;
+  padding: 7px;
+  display: inline-block;
+  margin-left: 50%;
+  transform: translateX(-440px);
+  margin-top: 8px;
+  margin-bottom: 8px; }
+  @media (max-width: 900px) {
+    :host .intro-label {
+      transform: none;
+      margin-left: 10px; } }
+
+:host .intro-section {
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: #F9F9F9; }
+  @media (max-width: 900px) {
+    :host .intro-section {
+      width: auto;
+      margin-left: 0;
+      margin-right: 0; } }
+  :host .intro-section p:first-of-type {
+    padding-top: 5px; }
+  :host .intro-section > label {
+    color: #777;
+    background-color: transparent;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 25px;
+    padding: 7px;
+    display: block;
+    margin-top: -15px; }
+
+:host .intro-section::after {
+  content: "";
+  clear: both;
+  display: block; }
+
+:host .intro-section.align-right {
+  text-align: right; }
+  :host .intro-section.align-right .intro-card-float {
+    float: right; }
+
+:host .first-intro-section {
+  background-color: transparent;
+  margin-bottom: 20px; }
+  @media (max-width: 900px) {
+    :host .first-intro-section {
+      margin-top: 0; } }
+
+:host .intro-card-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around; }
+  @media screen and (max-width: 900px) {
+    :host .intro-card-group {
+      flex-direction: column; } }
+
+:host .intro-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center; }
+  @media screen and (max-width: 900px) {
+    :host .intro-card {
+      margin-top: 20px; } }
+  :host .intro-card > .intro-card-content {
+    flex-grow: 1;
+    display: flex;
+    align-items: center; }
+  :host .intro-card > label {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    color: #aaa;
+    margin-top: 8px;
+    margin-bottom: 8px; }
+
+:host .intro-card-float {
+  float: left;
+  padding: 10px; }
+
+:host .structure-example {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%; }
+
+</style>
+</template>
+</dom-module>
