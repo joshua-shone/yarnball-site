@@ -21,10 +21,7 @@
     <script src="/bower_components/requirejs/require.js"></script>
     <script>
       require.config({
-        baseUrl: '/',
-        paths: {
-          core: '/core',
-        },
+        baseUrl: '/bower_components',
       });
     </script>
     
@@ -39,7 +36,7 @@
     <link rel="import" href="/user/user.html">
     <link rel="import" href="/user-surface/user-surface.html">
     
-    <link rel="import" href="/widgets/socketio/socketio-status.html">
+    <link rel="import" href="/bower_components/yarnball/widgets/socketio/socketio-status.html">
     
   </head>
 
@@ -101,7 +98,7 @@
           mainPages.select(usernode + '/' + surface);
         }
       
-        require(['bower_components/page/page', 'socket.io-client/socket.io', 'core/node'], function(page, SocketIO, Node) {
+        require(['page/page', 'socket.io-client/socket.io', 'yarnball/core/node'], function(page, SocketIO, Node) {
         
           page('/', function(context) {
             mainPages.select('landing-page');

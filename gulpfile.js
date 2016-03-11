@@ -19,7 +19,6 @@ var yargs   = require('yargs');
 
 gulp.task('static', [
   'static-bower',
-  'static-socket-io',
   'static-html',
   'static-js',
   'static-sass',
@@ -79,10 +78,4 @@ gulp.task('static-bower', function() {
 //     .pipe(gulp_if('*.html', htmlmin()))
     .pipe(gulp_if(yargs.argv.production, gulp_if('*.css', cssnano())))
     .pipe(gulp.dest('dist/static/bower_components/'));
-});
-
-gulp.task('static-socket-io', function() {
-  return gulp.src('node_modules/socket.io-client/**')
-    .pipe(gulp_if(yargs.argv.production, gulp_if('*.js', uglifyjs())))
-    .pipe(gulp.dest('dist/static/socket.io-client'));
 });

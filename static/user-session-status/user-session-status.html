@@ -72,12 +72,12 @@
           });
         },
         signup: function() {
-          require(['bower_components/page/page'], function(page) {
+          require(['page/page'], function(page) {
             page('/signup');
           });
         },
         login: function() {
-          require(['bower_components/page/page'], function(page) {
+          require(['page/page'], function(page) {
             page('/login');
           });
         },
@@ -92,7 +92,7 @@
           if ('userSession' in window.localStorage) {
             var userSession = JSON.parse(window.localStorage.userSession);
             if ('username' in userSession) {
-              require(['bower_components/page/page'], function(page) {
+              require(['page/page'], function(page) {
                 page('/' + userSession.username);
               });
             }

@@ -16,10 +16,13 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.2.4",
+    "yarnball": "git@github.com:yarnball-dev/yarnball.git",
     "paper-elements": "PolymerElements/paper-elements#^1.0.7",
     "iron-elements": "PolymerElements/iron-elements#~1.0.7",
     "requirejs": "requirejs-bower#~2.1.22",
     "normalize-css": "normalize.css#~3.0.3",
-    "page": "visionmedia/page.js#~1.6.4"
+    "page": "visionmedia/page.js#~1.6.4",
+    "socket.io-client": "~1.4.5",
+    "sjcl": "~1.0.3"
   }
 }

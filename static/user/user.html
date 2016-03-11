@@ -5,10 +5,10 @@
 <link rel="import" href="/bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="/bower_components/iron-icons/social-icons.html">
 
-<link rel="import" href="/widgets/socketio/web-socketio.html">
-<link rel="import" href="/widgets/web-status/web-status.html">
-<link rel="import" href="/widgets/error-overlay/error-overlay.html">
-<link rel="import" href="/widgets/error-overlay/error-overlay-styles.html">
+<link rel="import" href="/bower_components/yarnball/widgets/socketio/web-socketio.html">
+<link rel="import" href="/bower_components/yarnball/widgets/web-status/web-status.html">
+<link rel="import" href="/bower_components/yarnball/widgets/error-overlay/error-overlay.html">
+<link rel="import" href="/bower_components/yarnball/widgets/error-overlay/error-overlay-styles.html">
 
 <link rel="import" href="user-styles.html">
 
@@ -123,7 +123,7 @@
           self._surfaces = [];
           self.getWeb().then(function(web) {
             self.set('username', self._userSession.username);
-            require(['user-web', 'core/node'], function(UserWeb, Node) {
+            require(['user-web', 'yarnball/core/node'], function(UserWeb, Node) {
               var userWeb = UserWeb(web, Node.fromHex(self._userSession.usernode));
               self._onSurfaces(userWeb.getSurfaces(), []);
               userWeb.onSurfaces(self._onSurfaces.bind(self));
@@ -134,14 +134,14 @@
         logout: function() {
           window.localStorage.removeItem('userSession');
           // TODO: Disconnect socket
-          require(['bower_components/page/page'], function(page) {
+          require(['page/page'], function(page) {
             page('/login');
           });
         },
         _onSurfaces: function(added, removed) {
           var self = this;
           
-          require(['core/node', 'core/node-set'], function(Node, NodeSet) {
+          require(['yarnball/core/node', 'yarnball/core/node-set'], function(Node, NodeSet) {
           
             added.forEach(function(surface) {
               self.push('_surfaces', {node: Node.toHex(surface)});
@@ -156,7 +156,7 @@
         _createSurface: function() {
           var self = this;
           self.getWeb().then(function(web) {
-            require(['widgets/surface/surface-web', 'user-web', 'core/batch', 'core/node'], function(SurfaceWeb, UserWeb, Batch, Node) {
+            require(['yarnball/widgets/surface/surface-web', 'user-web', 'yarnball/core/batch', 'yarnball/core/node'], function(SurfaceWeb, UserWeb, Batch, Node) {
               var batch = Batch(web);
               var surface = SurfaceWeb(batch);
               var userWeb = UserWeb(batch, Node.fromHex(self._userSession.usernode));
@@ -167,14 +167,14 @@
         },
         _goToSurface: function(event, detail) {
           var self = this;
-          require(['bower_components/page/page'], function(page) {
+          require(['page/page'], function(page) {
             page(self._userSession.username + '/' + event.model.item.node);
           });
         },
         _deleteSurface: function(event, detail) {
           var self = this;
           self.getWeb().then(function(web) {
-            require(['widgets/surface/surface-web', 'user-web', 'core/batch', 'core/node'], function(SurfaceWeb, UserWeb, Batch, Node) {
+            require(['yarnball/widgets/surface/surface-web', 'user-web', 'yarnball/core/batch', 'yarnball/core/node'], function(SurfaceWeb, UserWeb, Batch, Node) {
               var batch = Batch(web);
               var surface = Node.fromHex(event.model.item.node);
               var surfaceWeb = SurfaceWeb(batch, surface);

@@ -38,7 +38,7 @@
           var username = self.$.usernameField.value;
           var password = self.$.passwordField.value;
           
-          require(['socket.io-client/socket.io', 'bower_components/page/page', 'hash'], function(SocketIO, page, hash) {
+          require(['socket.io-client/socket.io', 'page/page', 'hash'], function(SocketIO, page, hash) {
           
             // Perform the first round of hashing on the client-side to prevent the server (connected over TLS) from having the plaintext
             // password. Note that without salt, reconstructing weaker passwords by brute-force is possible; a second round of salted hashing
