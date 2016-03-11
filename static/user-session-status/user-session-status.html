@@ -1,0 +1,105 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
+<link rel="import" href="/bower_components/iron-icons/social-icons.html">
+
+<link rel="import" href="user-session-status-styles.html">
+
+<dom-module id="yb-user-session-status">
+
+  <style include="user-session-status-styles"></style>
+
+  <template>
+    <paper-button id="signupButton" on-tap="signup">Sign up</paper-button>
+    <paper-button id="loginButton"  on-tap="login">Log in</paper-button>
+    
+    <paper-button id="user" on-tap="userPage">
+      <iron-icon icon="social:person"></iron-icon>
+      <span id="username"></span>
+    </paper-button>
+    <paper-button id="logoutButton" on-tap="logout">Log out</paper-button>
+  </template>
+  
+  <script>
+    (function() {
+      Polymer({
+        is: 'yb-user-session-status',
+        ready: function() {
+          this.validateSession();
+        },
+        validateSession: function() {
+          var self = this;
+          
+          if (!('userSession' in window.localStorage)) {
+            self.classList.add('no-session');
+            self.classList.remove('has-session');
+            self.classList.remove('invalid-session');
+            return;
+          }
+          
+          var userSession = JSON.parse(window.localStorage.userSession);
+          
+          if (!('usernode' in userSession && 'username' in userSession && 'token' in userSession)) {
+            self.classList.add('has-session');
+            self.classList.add('invalid-session');
+            self.classList.remove('no-session');
+            return;
+          }
+          
+          self.$.username.textContent = userSession.username;
+          
+          self.classList.add('has-session');
+          self.classList.remove('no-session');
+          
+          require(['socket.io-client/socket.io'], function(SocketIO) {
+            var socketio = SocketIO();
+            socketio.on('connect', function() {
+              socketio.emit('validateUserToken', {usernode: userSession.usernode, token: userSession.token}, function(result) {
+                if (typeof result === 'object' && 'error' in result) {
+                  console.error(result);
+                  return;
+                }
+                
+                var isValid = result;
+                
+                if (isValid) {
+                  self.classList.remove('invalid-session');
+                } else {
+                  self.classList.add('invalid-session');
+                }
+              });
+            });
+          });
+        },
+        signup: function() {
+          require(['bower_components/page/page'], function(page) {
+            page('/signup');
+          });
+        },
+        login: function() {
+          require(['bower_components/page/page'], function(page) {
+            page('/login');
+          });
+        },
+        logout: function() {
+          window.localStorage.removeItem('userSession');
+          
+          this.classList.add('no-session');
+          this.classList.remove('has-session');
+          this.classList.remove('invalid-session');
+        },
+        userPage: function() {
+          if ('userSession' in window.localStorage) {
+            var userSession = JSON.parse(window.localStorage.userSession);
+            if ('username' in userSession) {
+              require(['bower_components/page/page'], function(page) {
+                page('/' + userSession.username);
+              });
+            }
+          }
+        },
+      });
+    })();
+  </script>
+
+</dom-module>

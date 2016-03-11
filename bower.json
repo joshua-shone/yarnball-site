@@ -1,0 +1,25 @@
+{
+  "name": "yarnball-site",
+  "description": "Yarnball website",
+  "homepage": "https://github.com/yarnball-dev/site",
+  "repository": "https://github.com/yarnball-dev/site.git",
+  "license": "MIT",
+  "authors": [
+    "Joshua Shone"
+  ],
+  "main": "",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.2.4",
+    "paper-elements": "PolymerElements/paper-elements#^1.0.7",
+    "iron-elements": "PolymerElements/iron-elements#~1.0.7",
+    "requirejs": "requirejs-bower#~2.1.22",
+    "normalize-css": "normalize.css#~3.0.3",
+    "page": "visionmedia/page.js#~1.6.4"
+  }
+}

@@ -1,1 +1,6 @@
 **/.directory
+**/.kate-swap
+node_modules/
+bower_components/
+.sass-cache/
+dist/

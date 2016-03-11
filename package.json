@@ -1,0 +1,31 @@
+{
+  "name": "yarnball-site",
+  "version": "0.1.0",
+  "description": "Yarnball website",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yarnball-dev/site.git"
+  },
+  "author": "Joshua Shone",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yarnball-dev/site/issues"
+  },
+  "homepage": "https://github.com/yarnball-dev/site#readme",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-cssnano": "^2.1.1",
+    "gulp-if": "^2.0.0",
+    "gulp-sass": "^2.2.0",
+    "gulp-style-modules": "^0.1.0",
+    "gulp-svgmin": "^1.2.2",
+    "gulp-uglify": "^1.5.3",
+    "socket.io-client": "^1.4.5",
+    "yargs": "^4.2.0",
+    "yarnball": "github:yarnball-dev/yarnball"
+  }
+}

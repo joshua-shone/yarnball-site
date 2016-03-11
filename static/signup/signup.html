@@ -1,0 +1,114 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="signup-styles.html">
+
+<dom-module id="yb-signup">
+
+  <style include="signup-styles"></style>
+
+  <template>
+    <div class="container">
+      <paper-input id="usernameField" label="username" required on-input="usernameChanged"></paper-input>
+      <paper-input id="passwordField" label="password" type="password" required></paper-input>
+      <paper-input label="password (repeat)" type="password" required></paper-input>
+      <paper-button id="signupButton" on-tap="signup">Sign up</paper-button>
+    </div>
+  </template>
+  
+  <script>
+    (function() {
+      Polymer({
+        is: 'yb-signup',
+        ready: function() {
+          var self = this;
+          self.usernameField = this.$.usernameField;
+          self.passwordField = this.$.passwordField;
+          self.takenUsernames = new Set();
+          
+          require(['socket.io-client/socket.io'], function(SocketIO) {
+            self.users = SocketIO();
+          });
+        },
+        checkUsernameTaken: function(username) {
+          var self = this;
+          if (self.users) {
+            self.users.emit('hasUsername', username, function(result) {
+              
+              if (typeof result === 'object' && 'error' in result) {
+                console.error(result.error);
+                return;
+              }
+              
+              var hasUsername = result;
+            
+              if (hasUsername) {
+                self.takenUsernames.add(username);
+              } else {
+                self.takenUsernames.delete(username);
+              }
+              
+              if (self.usernameField.value === username) {
+                if (hasUsername) {
+                  self.usernameField.set('errorMessage', 'this name is taken');
+                  self.usernameField.set('invalid', true);
+                } else {
+                  self.usernameField.set('errorMessage', '');
+                  self.usernameField.set('invalid', false);
+                }
+              }
+            });
+          }
+        },
+        usernameChanged: function(event) {
+          var username = this.usernameField.value;
+          this.checkUsernameTaken(username);
+          if (this.takenUsernames.has(this.usernameField.value)) {
+            this.usernameField.set('errorMessage', 'this name is taken');
+            this.usernameField.set('invalid', true);
+          } else {
+            this.usernameField.set('errorMessage', '');
+            this.usernameField.set('invalid', false);
+          }
+        },
+        signup: function() {
+          var self = this;
+          
+          // TODO: Check for valid username/password
+          if (!self.usernameField.value || !self.passwordField.value) {
+            // TODO: Show error prompt
+            return;
+          }
+          
+          var username = self.usernameField.value;
+          var password = self.passwordField.value;
+          
+          require(['bower_components/page/page', 'hash'], function(page, hash) {
+          
+            // Perform the first round of hashing on the client-side to prevent the server (connected over TLS) from having the plaintext
+            // password. Note that without salt, reconstructing weaker passwords by brute-force is possible; a second round of salted hashing
+            // is performed server-side.
+            var passwordHash = hash(password);
+          
+            self.users.emit('createUser', {username: username, passwordHash: passwordHash}, function(result) {
+              if (typeof result === 'object' && 'error' in result) {
+                console.error(result.error);
+                // TODO: Show error prompt
+              } else {
+                window.localStorage.userSession = JSON.stringify({
+                  usernode: result.usernode,
+                  username: username,
+                  token: result.token,
+                });
+                page('/' + username);
+              }
+            });
+          });
+        },
+      });
+    })();
+  </script>
+
+</dom-module>

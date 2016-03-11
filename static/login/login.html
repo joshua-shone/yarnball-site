@@ -1,0 +1,70 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<link rel="import" href="/bower_components/paper-input/paper-input.html">
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
+<link rel="import" href="/bower_components/paper-toast/paper-toast.html">
+
+<link rel="import" href="login-styles.html">
+
+<dom-module id="yb-login">
+
+  <style include="login-styles"></style>
+
+  <template>
+    <div class="container">
+      <paper-input id="usernameField" label="username" required></paper-input>
+      <paper-input id="passwordField" label="password" type="password" required></paper-input>
+      
+      <paper-button id="loginButton" on-tap="login">Log in</paper-button>
+      
+      <paper-toast id="errorPopup" class="fit-bottom"></paper-toast>
+    </div>
+  </template>
+  
+  <script>
+    (function() {
+      Polymer({
+        is: 'yb-login',
+        login: function() {
+          var self = this;
+          
+          // TODO: check for valid username/password
+          if (!self.$.usernameField.value || !self.$.passwordField.value) {
+            self.$.errorPopup.set('text', 'Invalid username/password');
+            self.$.errorPopup.open();
+            return;
+          }
+          
+          var username = self.$.usernameField.value;
+          var password = self.$.passwordField.value;
+          
+          require(['socket.io-client/socket.io', 'bower_components/page/page', 'hash'], function(SocketIO, page, hash) {
+          
+            // Perform the first round of hashing on the client-side to prevent the server (connected over TLS) from having the plaintext
+            // password. Note that without salt, reconstructing weaker passwords by brute-force is possible; a second round of salted hashing
+            // is performed server-side.
+            var passwordHash = hash(self.$.passwordField.value);
+            
+            var socketio = SocketIO();
+            socketio.on('connect', function() {
+              socketio.emit('login', {username: username, passwordHash: passwordHash}, function(result) {
+                if (typeof result === 'object' && 'error' in result) {
+                  self.$.errorPopup.set('text', result.error);
+                  self.$.errorPopup.open();
+                } else {
+                  window.localStorage.userSession = JSON.stringify({
+                    usernode: result.usernode,
+                    username: result.username,
+                    token: result.token,
+                  });
+                  page('/' + username);
+                }
+              });
+            });
+          });
+        },
+      });
+    })();
+  </script>
+
+</dom-module>

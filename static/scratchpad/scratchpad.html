@@ -1,0 +1,26 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<link rel="import" href="scratchpad-styles.html">
+
+<link rel="import" href="/widgets/web/web.html">
+<link rel="import" href="/widgets/surface/surface.html">
+
+<dom-module id="yb-scratchpad">
+
+  <style include="scratchpad-styles"></style>
+
+  <template>
+    <yb-web-status id="web-status"></yb-web-status>
+    <yb-surface tabindex="0" id="surface" node="2b3d67e4119e97849aa394beec11ec83"></yb-surface>
+  </template>
+  
+  <script>
+    (function() {
+      Polymer({
+        is: 'yb-scratchpad',
+        behaviors: [WebSource],
+      });
+    })();
+  </script>
+
+</dom-module>

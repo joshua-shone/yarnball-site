@@ -1,0 +1,58 @@
+:host
+  display: flex
+  flex-direction: row
+  padding: 10px
+  
+  paper-button
+    padding-left:  20px
+    padding-right: 20px
+    margin-left:  5px
+    margin-right: 5px
+    height: 50px
+    padding-top: 16px
+    text-transform: none
+  
+  #signupButton,
+  #loginButton,
+  #logoutButton,
+  #user
+    display: none
+
+:host.no-session
+  #signupButton
+    display: inline-block
+    background-color: #78a4da
+    color: #fff
+  #signupButton:hover
+    background-color: #9ABFEC
+  
+  #loginButton
+    display: inline-block
+    border: 1px solid #ddd
+    background-color: #fff
+    color: #888
+  #loginButton:hover
+    background-color: #8C8C8C
+    color: #fff
+
+:host.has-session
+  #logoutButton
+    display: inline-block
+    border: 1px solid #ddd
+    background-color: #fff
+    color: #888
+  #logoutButton:hover
+    background-color: #8C8C8C
+    color: #fff
+  
+  #user
+    display: inline-block
+    padding: 10px
+    border-radius: 4px
+    color: #333
+    cursor: pointer
+    #username
+      font-size: 22px
+      margin-right: 4px
+  #user:hover
+    background-color: #E2F4FF

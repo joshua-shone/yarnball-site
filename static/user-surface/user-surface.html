@@ -1,0 +1,37 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<link rel="import" href="user-surface-styles.html">
+
+<link rel="import" href="/user/user.html">
+
+<link rel="import" href="/widgets/surface/surface.html">
+
+<link rel="import" href="/widgets/error-overlay/error-overlay.html">
+<link rel="import" href="/widgets/error-overlay/error-overlay-styles.html">
+
+<dom-module id="yb-user-surface">
+
+  <style include="user-surface-styles"></style>
+  <style include="error-overlay-styles"></style>
+  
+  <template>
+    <yb-web-status id="webStatus"></yb-web-status>
+    <yb-surface id="surface" node="{{surface}}"></yb-surface>
+  </template>
+  
+  <script>
+    (function() {
+      Polymer({
+        is: 'yb-user-surface',
+        behaviors: [UserWebSource, ErrorOverlay],
+        properties: {
+          surface: {
+            type: String,
+            reflectToAttribute: true,
+          },
+        },
+      });
+    })();
+  </script>
+
+</dom-module>

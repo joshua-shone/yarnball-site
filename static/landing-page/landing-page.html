@@ -1,0 +1,160 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<link rel="import" href="/bower_components/iron-icons/hardware-icons.html">
+
+<link rel="import" href="landing-page-styles.html">
+
+<link rel="import" href="/user-session-status/user-session-status.html">
+
+<link rel="import" href="/widgets/web/web.html">
+<link rel="import" href="/widgets/node/node.html">
+<link rel="import" href="/widgets/link/link.html">
+
+<dom-module id="yb-landing-page">
+  
+  <style include="landing-page-styles"></style>
+
+  <template>
+    
+    <section class="title">
+      <div class="title">yarnball</div>
+      <div class="beta-label">BETA</div>
+    </section>
+    
+    <yb-user-session-status id="userSessionStatus"></yb-user-session-status>
+    
+    <section class="hero">
+    
+      <img class="hero-triple" src="hero-triple.svg" />
+
+      <div class="hero-button-container">
+        <a id="begin-button" class="hero-button" href="/scratchpad">
+          Begin
+          <iron-icon icon="hardware:keyboard-arrow-right"></iron-icon>
+        </a>
+        <a id="intro-button" class="hero-button" href="/">
+          Intro
+          <iron-icon icon="hardware:keyboard-arrow-down"></iron-icon>
+        </a>
+      </div>
+      
+      <div class="hero-blurb">
+        Yarnball is a prototype for making data without data-types. Strings, arrays and objects do not exist built-in, but they can be made, along with anything, on the basis of Nodes and Links.
+      </div>
+    </section>
+    
+    <label id="first-intro-element" class="intro-label">Building Blocks</label>
+  
+    <section class="intro-section first-intro-section">
+    
+      <div class="intro-card-group">
+        <div class="intro-card">
+          <div class="intro-card-content">
+            <yb-node node-id="1e436f8bb0da1c31e9382450fdd51eaa"></yb-node>
+          </div>
+          <label>Node</label>
+        </div>
+        <div class="intro-card">
+          <div class="intro-card-content">
+            <yb-link
+              from="1e436f8bb0da1c31e9382450fdd51eaa"
+              via ="ac1bbe77ed038accd45f7e906d4257d2"
+              to  ="a0f9922a65546eacd04b910998744300">
+            </yb-link>
+          </div>
+          <label>Link</label>
+        </div>
+        <div class="intro-card">
+          <div class="intro-card-content">
+            <img src="web.svg" />
+          </div>
+          <label>Web</label>
+        </div>
+      </div>
+      
+    </section>
+    
+    <section class="intro-section">
+      <div class="intro-card-float">
+        <yb-node node-id="1e436f8bb0da1c31e9382450fdd51eaa"></yb-node>
+      </div>
+      <p>
+        A node is a randomly generated number.
+      </p>
+      <p>
+        It can represent things, concepts, or anything.
+      </p>
+    </section>
+    
+    <section class="intro-section align-right">
+      <div class="intro-card-float">
+        <yb-node node-id="5c4d67cf88fd9c5dbc841dee378b6b4b"></yb-node>
+      </div>
+      <p>
+        A node can be given a name, for example:
+      </p>
+    </section>
+    
+    <section class="intro-section">
+      <div class="intro-card-float">
+        <yb-link
+          from="1e436f8bb0da1c31e9382450fdd51eaa"
+          via ="ac1bbe77ed038accd45f7e906d4257d2"
+          to  ="a0f9922a65546eacd04b910998744300">
+        </yb-link>
+      </div>
+      <p>A link connects three nodes together.</p>
+      <p>It connects <em>from</em> the first node, <em>via</em> the second node, <em>to</em> the last node.</p>
+    </section>
+    
+    <section class="intro-section align-right">
+      <div class="intro-card-float">
+        <img src="web.svg" />
+      </div>
+      <p>A collection of links is called a web.</p>
+      <p>A web can represent any kind of information, arranged in any kind of way.</p>
+    </section>
+    
+    
+    <label class="intro-label">Basic Structures</label>
+    
+    <section class="intro-section">
+      <p>
+        Using nodes and links, any kind of structure can be constructed. Here are some basic examples.
+      </p>
+    </section>
+    
+    <section class="intro-section">
+      <label>Set</label>
+      <img class="structure-example" src="set-example.svg" />
+    </section>
+    
+    <section class="intro-section">
+      <label>List</label>
+      <img class="structure-example" src="array-example.svg" />
+    </section>
+    
+    <section class="intro-section">
+      <label>Tree</label>
+      <img class="structure-example" src="tree-example.svg" />
+    </section>
+    
+    <label class="intro-label">Examples</label>
+    
+    <section class="intro-section">
+      <label>Music collection</label>
+      <img class="structure-example" src="music-collection-example.svg" />
+    </section>
+    
+  </template>
+  
+  <script>
+    (function() {
+      Polymer({
+        is: 'yb-landing-page',
+        behaviors: [WebSource],
+      });
+    })();
+  </script>
+
+</dom-module>

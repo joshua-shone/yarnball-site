@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+    
+    <title>Yarnball</title>
+    
+    <link rel="icon" href="/favicon.png">
+    
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    
+    <link rel="stylesheet" href="/bower_components/normalize-css/normalize.css">
+    
+    <link rel="stylesheet" href="/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Lora' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css'>
+    
+    <script src="/bower_components/requirejs/require.js"></script>
+    <script>
+      require.config({
+        baseUrl: '/',
+        paths: {
+          core: '/core',
+        },
+      });
+    </script>
+    
+    <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    
+    <link rel="import" href="/bower_components/iron-pages/iron-pages.html">
+    
+    <link rel="import" href="/landing-page/landing-page.html">
+    <link rel="import" href="/scratchpad/scratchpad.html">
+    <link rel="import" href="/login/login.html">
+    <link rel="import" href="/signup/signup.html">
+    <link rel="import" href="/user/user.html">
+    <link rel="import" href="/user-surface/user-surface.html">
+    
+    <link rel="import" href="/widgets/socketio/socketio-status.html">
+    
+  </head>
+
+  <body unresolved>
+  
+    <span id="browser-sync-binding"></span>
+    
+    <iron-pages id="main-pages" attr-for-selected="page-name">
+      <yb-landing-page page-name="landing-page"></yb-landing-page>
+      <yb-scratchpad   page-name="scratchpad">  </yb-scratchpad>
+      <yb-login        page-name="login">       </yb-login>
+      <yb-signup       page-name="signup">      </yb-signup>
+    </iron-pages>
+    
+    <script>
+      document.addEventListener('WebComponentsReady', function() {
+        
+        var mainPages = document.getElementById('main-pages');
+      
+        var userPages        = new Map();
+        var userSurfacePages = new Map();
+        
+        function goToUserPage(usernode) {
+          var userPage = userPages.get(usernode);
+          if (!userPage) {
+            userPage = document.createElement('yb-user');
+            userPage.set('usernode', usernode);
+            if ('userSession' in window.localStorage) {
+              var userSession = JSON.parse(window.localStorage.userSession);
+              if ('usernode' in userSession && 'username' in userSession && 'token' in userSession) {
+                userPage.setUserSession(userSession);
+              }
+            }
+            userPage.setAttribute('page-name', usernode);
+            Polymer.dom(mainPages).appendChild(userPage);
+            userPages.set(usernode, userPage);
+          }
+          
+          mainPages.select(usernode);
+        }
+        
+        function goToUserSurfacePage(usernode, surface) {
+          var userSurfacePage = userSurfacePages.get(surface);
+          if (!userSurfacePage) {
+            userSurfacePage = document.createElement('yb-user-surface');
+            userSurfacePage.set('usernode', usernode);
+            userSurfacePage.set('surface', surface);
+            if ('userSession' in window.localStorage) {
+              var userSession = JSON.parse(window.localStorage.userSession);
+              if ('usernode' in userSession && 'username' in userSession && 'token' in userSession) {
+                userSurfacePage.setUserSession(userSession);
+              }
+            }
+            userSurfacePage.setAttribute('page-name', usernode + '/' + surface);
+            Polymer.dom(mainPages).appendChild(userSurfacePage);
+            userSurfacePages.set(surface, userSurfacePage);
+          }
+          
+          mainPages.select(usernode + '/' + surface);
+        }
+      
+        require(['bower_components/page/page', 'socket.io-client/socket.io', 'core/node'], function(page, SocketIO, Node) {
+        
+          page('/', function(context) {
+            mainPages.select('landing-page');
+          });
+          page('/scratchpad', function(context) {
+            mainPages.select('scratchpad');
+          });
+          page('/login', function(context) {
+            mainPages.select('login');
+          });
+          page('/signup', function(context) {
+            mainPages.select('signup');
+          });
+          page('*', function(context) {
+          
+            function splitPath(path) {
+              return path.split('/').filter(function(element) {
+                return element !== '';
+              });
+            }
+            
+            var pathElements = splitPath(context.path);
+            if (pathElements.length > 0) {
+              var pathBase = pathElements[0];
+              
+              var socketioUsers = SocketIO();
+              socketioUsers.on('connect', function() {
+                socketioUsers.emit('getUsernodeForName', pathBase, function(result) {
+                  if (!result) {
+                    // TODO: Show 404
+                    return;
+                  }
+                
+                  if (typeof result === 'object' && 'error' in result) {
+                    console.error(result.error);
+                    // TODO: Show error page
+                    return;
+                  }
+                  
+                  var usernode = result;
+                  if (pathElements.length === 1) {
+                    goToUserPage(usernode);
+                  } else if (pathElements.length === 2) {
+                    if (Node.isHex(pathElements[1])) {
+                      var surface = pathElements[1];
+                      goToUserSurfacePage(usernode, surface);
+                    }
+                  }
+                });
+              });
+            }
+          });
+          
+          page();
+        });
+      });
+    </script>
+  </body>
+  
+</html>

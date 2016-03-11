@@ -1,0 +1,192 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="/bower_components/iron-icons/social-icons.html">
+
+<link rel="import" href="/widgets/socketio/web-socketio.html">
+<link rel="import" href="/widgets/web-status/web-status.html">
+<link rel="import" href="/widgets/error-overlay/error-overlay.html">
+<link rel="import" href="/widgets/error-overlay/error-overlay-styles.html">
+
+<link rel="import" href="user-styles.html">
+
+<script>
+  UserWebSource = [Web_SocketIO_Behavior,
+  {
+    properties: {
+      usernode: {
+        type: String,
+        reflectToAttribute: true,
+      },
+    },
+    setUserSession: function(userSession) {
+      this._userSession = userSession;
+    },
+    initUser: function() {
+      var self = this;
+      
+      try {
+      
+        if (self._initUserStarted) {
+          throw 'initUser() already called for user.';
+        }
+        self._initUserStarted = true;
+        
+        if (!self.usernode) {
+          throw 'Cannot initialize for user, usernode not specified.';
+        }
+//         if (!Node.isHex(self.usernode)) {
+//           throw 'Cannot initialize for user, given usernode attribute is not a valid hex node.';
+//         }
+        
+        require(['socket.io-client/socket.io'], function(SocketIO) {
+          var socketioOptions = {};
+          if (self._userSession) {
+            socketioOptions = {
+              forceNew: true,
+              query: 'token=' + self._userSession.token,
+            }
+          }
+          
+          var socketio = SocketIO('/' + self.usernode, socketioOptions);
+          
+          socketio.on('connect', function() {
+            self.setSocketio(socketio);
+          });
+          
+          socketio.on('error', function(error) {
+            console.error(error);
+            var errorMessage = error;
+            if (typeof error === 'object' && 'message' in error) {
+              errorMessage = error.message;
+            }
+            self.showErrorOverlay(errorMessage);
+          });
+        });
+        
+      } catch(error) {
+        self.showErrorOverlay(error);
+        throw error;
+      }
+    },
+    attached: function() {
+      if (!this._initUserStarted) {
+        this.initUser();
+      }
+    },
+  }]
+</script>
+
+<dom-module id="yb-user">
+
+  <style include="user-styles"></style>
+  <style include="error-overlay-styles"></style>
+
+  <template>
+    <paper-button id="logoutButton" on-tap="logout">Log out</paper-button>
+    
+    <div id="container">
+    
+      <div id="user">
+        <iron-icon id="userIcon" icon="social:person"></iron-icon>
+        <span id="username">{{username}}</span>
+      </div>
+      
+      <yb-web-status id="webStatus"></yb-web-status>
+      
+      <div id="surfaces">
+        <template is="dom-repeat" items="{{_surfaces}}">
+          <div node$="{{item.node}}" class="surface-list-entry">
+            <paper-button class="surface-status" on-tap="_goToSurface">surface</paper-button>
+            <paper-button on-tap="_deleteSurface" class="surface-list-delete-button">
+              <iron-icon icon="icons:delete"></iron-icons>
+            </paper-button>
+          </div>
+        </template>
+      </div>
+      
+      <paper-button id="createSurfaceButton" on-tap="_createSurface">create surface</paper-button>
+      
+    </div>
+    
+  </template>
+  
+  <script>
+    (function() {
+      Polymer({
+        is: 'yb-user',
+        behaviors: [UserWebSource, ErrorOverlay],
+        ready: function() {
+          var self = this;
+          self._surfaces = [];
+          self.getWeb().then(function(web) {
+            self.set('username', self._userSession.username);
+            require(['user-web', 'core/node'], function(UserWeb, Node) {
+              var userWeb = UserWeb(web, Node.fromHex(self._userSession.usernode));
+              self._onSurfaces(userWeb.getSurfaces(), []);
+              userWeb.onSurfaces(self._onSurfaces.bind(self));
+              self._userWeb = userWeb;
+            });
+          });
+        },
+        logout: function() {
+          window.localStorage.removeItem('userSession');
+          // TODO: Disconnect socket
+          require(['bower_components/page/page'], function(page) {
+            page('/login');
+          });
+        },
+        _onSurfaces: function(added, removed) {
+          var self = this;
+          
+          require(['core/node', 'core/node-set'], function(Node, NodeSet) {
+          
+            added.forEach(function(surface) {
+              self.push('_surfaces', {node: Node.toHex(surface)});
+            });
+            
+            removed = NodeSet(removed);
+            self.set('_surfaces', self._surfaces.filter(function(surface) {
+              return !removed.has(Node.fromHex(surface.node));
+            }));
+          });
+        },
+        _createSurface: function() {
+          var self = this;
+          self.getWeb().then(function(web) {
+            require(['widgets/surface/surface-web', 'user-web', 'core/batch', 'core/node'], function(SurfaceWeb, UserWeb, Batch, Node) {
+              var batch = Batch(web);
+              var surface = SurfaceWeb(batch);
+              var userWeb = UserWeb(batch, Node.fromHex(self._userSession.usernode));
+              userWeb.addSurface(surface._base);
+              batch.apply();
+            });
+          });
+        },
+        _goToSurface: function(event, detail) {
+          var self = this;
+          require(['bower_components/page/page'], function(page) {
+            page(self._userSession.username + '/' + event.model.item.node);
+          });
+        },
+        _deleteSurface: function(event, detail) {
+          var self = this;
+          self.getWeb().then(function(web) {
+            require(['widgets/surface/surface-web', 'user-web', 'core/batch', 'core/node'], function(SurfaceWeb, UserWeb, Batch, Node) {
+              var batch = Batch(web);
+              var surface = Node.fromHex(event.model.item.node);
+              var surfaceWeb = SurfaceWeb(batch, surface);
+              surfaceWeb.destroy();
+              var userWeb = UserWeb(batch, Node.fromHex(self._userSession.usernode));
+              userWeb.removeSurface(surface);
+              batch.apply();
+            });
+          });
+        },
+      });
+    })();
+  </script>
+
+</dom-module>
