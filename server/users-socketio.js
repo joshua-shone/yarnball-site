@@ -8,7 +8,6 @@ function Users_SocketIO(users, socketio) {
   this._users    = users;
   this._socketio = socketio;
   this._userNamespaces = new Map();
-  socketio.on('connection', this._onConnection.bind(this));
 }
 
 Users_SocketIO.prototype.setup = function() {
@@ -22,6 +21,10 @@ Users_SocketIO.prototype.setup = function() {
         self._userNamespaces.set(Node.toHex(usernode), userNamespace);
       });
     }));
+  })
+  
+  .then(function() {
+    self._socketio.on('connection', self._onConnection.bind(self));
   })
 }
 
