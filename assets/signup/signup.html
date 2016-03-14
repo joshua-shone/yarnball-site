@@ -85,7 +85,7 @@
           var username = self.usernameField.value;
           var password = self.passwordField.value;
           
-          require(['page/page', 'hash'], function(page, hash) {
+          require(['page/page', 'assets/hash'], function(page, hash) {
           
             // Perform the first round of hashing on the client-side to prevent the server (connected over TLS) from having the plaintext
             // password. Note that without salt, reconstructing weaker passwords by brute-force is possible; a second round of salted hashing

@@ -2,7 +2,7 @@
 // See https://www.npmjs.com/package/amdefine
 if (typeof define !== 'function') { var define = require('amdefine')(module); }
 
-define(['core/node', 'core/batch', 'core/web', 'core/node-set'], function(Node, Batch, Web, NodeSet) {
+define(['yarnball/core/node', 'yarnball/core/batch', 'yarnball/core/web', 'yarnball/core/node-set'], function(Node, Batch, Web, NodeSet) {
   
   var User    = Node.fromHex('638fef14d56459472fa44a7088afec92');
   var Is      = Node.fromHex('52f9cf0e223d559931856acc98400f21');

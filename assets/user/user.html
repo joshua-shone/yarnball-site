@@ -123,7 +123,7 @@
           self._surfaces = [];
           self.getWeb().then(function(web) {
             self.set('username', self._userSession.username);
-            require(['user-web', 'yarnball/core/node'], function(UserWeb, Node) {
+            require(['assets/user-web', 'yarnball/core/node'], function(UserWeb, Node) {
               var userWeb = UserWeb(web, Node.fromHex(self._userSession.usernode));
               self._onSurfaces(userWeb.getSurfaces(), []);
               userWeb.onSurfaces(self._onSurfaces.bind(self));
@@ -156,7 +156,7 @@
         _createSurface: function() {
           var self = this;
           self.getWeb().then(function(web) {
-            require(['yarnball/widgets/surface/surface-web', 'user-web', 'yarnball/core/batch', 'yarnball/core/node'], function(SurfaceWeb, UserWeb, Batch, Node) {
+            require(['yarnball/widgets/surface/surface-web', 'assets/user-web', 'yarnball/core/batch', 'yarnball/core/node'], function(SurfaceWeb, UserWeb, Batch, Node) {
               var batch = Batch(web);
               var surface = SurfaceWeb(batch);
               var userWeb = UserWeb(batch, Node.fromHex(self._userSession.usernode));
@@ -174,7 +174,7 @@
         _deleteSurface: function(event, detail) {
           var self = this;
           self.getWeb().then(function(web) {
-            require(['yarnball/widgets/surface/surface-web', 'user-web', 'yarnball/core/batch', 'yarnball/core/node'], function(SurfaceWeb, UserWeb, Batch, Node) {
+            require(['yarnball/widgets/surface/surface-web', 'assets/user-web', 'yarnball/core/batch', 'yarnball/core/node'], function(SurfaceWeb, UserWeb, Batch, Node) {
               var batch = Batch(web);
               var surface = Node.fromHex(event.model.item.node);
               var surfaceWeb = SurfaceWeb(batch, surface);
