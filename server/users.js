@@ -3,15 +3,13 @@ var exec    = require('child_process').exec;
 var Path    = require('path');
 var Node    = require('yarnball/core/node');
 var WebDB   = require('yarnball/core/web_db');
-var WebFile = require('yarnball/core/web_file');
 var jwt     = require('jsonwebtoken');
 
-function Users(databasePath, userDataPath, initialLinksPath, initialNamesPath) {
-  this._db = Level(databasePath);
+function Users(database, userDataPath, defaultWeb) {
+  this._db = database;
   this._userDataPath = userDataPath;
   this._userWebs = new Map();
-  this._initialLinksPath = initialLinksPath;
-  this._initialNamesPath = initialNamesPath;
+  this._defaultWeb = defaultWeb;
 }
 
 Users.isValidUsername = function(string) {
@@ -205,26 +203,31 @@ Users.prototype.getUsernodes = function() {
 Users.prototype.getUserWeb = function(usernode) {
   var self = this;
   
+  // Get if already exists
+  var userWeb = self._userWebs.get(Node.toHex(usernode));
+  if (userWeb) {
+    return Promise.resolve(userWeb);
+  }
+  
+  // Ensure user directory exists
   return new Promise(function(resolve, reject) {
-    var userWeb = self._userWebs.get(Node.toHex(usernode));
-    if (userWeb) {
-      resolve(userWeb);
-    } else {
-      var userDir = Path.join(self._userDataPath, Node.toHex(usernode));
-      exec('mkdir -p ' + userDir, function(err, stdout, stderr) {
-        if (err) {
-          reject('Could not get web for user "' + Node.toHex(usernode) + '", a directory could not be created at "' + userDir + '".');
-        }
-      }).on('exit', function() {
-        var userWebDir = Path.join(userDir, 'db');
-        var userWeb = WebDB(userWebDir);
-        var defaultWeb = WebFile(self._initialNamesPath, self._initialLinksPath);
-        userWeb.merge(defaultWeb, function() {
-          self._userWebs.set(Node.toHex(usernode), userWeb);
-          resolve(userWeb);
-        });
-      });
-    }
+    var userDir = Path.join(self._userDataPath, Node.toHex(usernode));
+    exec('mkdir -p ' + userDir, function(err, stdout, stderr) {
+      if (err) {
+        reject('Could not get web for user "' + Node.toHex(usernode) + '", a directory could not be created at "' + userDir + '".');
+      }
+    }).on('exit', function() {
+      resolve(Path.join(userDir, 'db'));
+    });
+  })
+  
+  // Create web db and merge default web
+  .then(function(userWebDir) {
+    var userWeb = WebDB(userWebDir);
+    return userWeb.merge(self._defaultWeb).then(function() {
+      self._userWebs.set(Node.toHex(usernode), userWeb);
+      return userWeb;
+    })
   });
 }
 
@@ -232,8 +235,16 @@ Users.prototype.close = function(callback) {
   this._db.close(callback);
 }
 
-function Users_(databasePath, userDataPath, initialLinksPath, initialNamesPath) {
-  return new Users(databasePath, userDataPath, initialLinksPath, initialNamesPath);
+function Users_(databasePath, userDataPath, defaultWeb) {
+  return new Promise(function(resolve, reject) {
+    Level(databasePath, {}, function(error, database) {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(new Users(database, userDataPath, defaultWeb));
+      }
+    });
+  });
 }
 Users_.isValidUsername  = Users.isValidUsername;
 Users_.tokenCertificate = Users.tokenCertificate;
