@@ -11,9 +11,9 @@
 
   <template>
     <div class="container">
-      <paper-input id="usernameField" label="username" required on-input="usernameChanged"></paper-input>
-      <paper-input id="passwordField" label="password" type="password" required></paper-input>
-      <paper-input label="password (repeat)" type="password" required></paper-input>
+      <paper-input id="usernameField" label="username" required on-input="usernameChanged" on-keydown="_usernameFieldKeydown"></paper-input>
+      <paper-input id="passwordField" label="password" type="password" required on-keydown="_passwordFieldKeydown"></paper-input>
+      <paper-input id="passwordRepeatField" label="password (repeat)" type="password" required on-keydown="_passwordFieldRepeatKeydown"></paper-input>
       <paper-button id="signupButton" on-tap="signup">Sign up</paper-button>
     </div>
   </template>
@@ -24,8 +24,6 @@
         is: 'yb-signup',
         ready: function() {
           var self = this;
-          self.usernameField = this.$.usernameField;
-          self.passwordField = this.$.passwordField;
           self.takenUsernames = new Set();
           
           require(['socket.io-client/socket.io'], function(SocketIO) {
@@ -50,40 +48,55 @@
                 self.takenUsernames.delete(username);
               }
               
-              if (self.usernameField.value === username) {
+              if (self.$.usernameField.value === username) {
                 if (hasUsername) {
-                  self.usernameField.set('errorMessage', 'this name is taken');
-                  self.usernameField.set('invalid', true);
+                  self.$.usernameField.set('errorMessage', 'this name is taken');
+                  self.$.usernameField.set('invalid', true);
                 } else {
-                  self.usernameField.set('errorMessage', '');
-                  self.usernameField.set('invalid', false);
+                  self.$.usernameField.set('errorMessage', '');
+                  self.$.usernameField.set('invalid', false);
                 }
               }
             });
           }
         },
         usernameChanged: function(event) {
-          var username = this.usernameField.value;
+          var username = this.$.usernameField.value;
           this.checkUsernameTaken(username);
-          if (this.takenUsernames.has(this.usernameField.value)) {
-            this.usernameField.set('errorMessage', 'this name is taken');
-            this.usernameField.set('invalid', true);
+          if (this.takenUsernames.has(this.$.usernameField.value)) {
+            this.$.usernameField.set('errorMessage', 'this name is taken');
+            this.$.usernameField.set('invalid', true);
           } else {
-            this.usernameField.set('errorMessage', '');
-            this.usernameField.set('invalid', false);
+            this.$.usernameField.set('errorMessage', '');
+            this.$.usernameField.set('invalid', false);
+          }
+        },
+        _usernameFieldKeydown: function(event) {
+          if (event.which === 13) { // Enter key
+            this.$.passwordField.focus();
+          }
+        },
+        _passwordFieldKeydown: function(event) {
+          if (event.which === 13) { // Enter key
+            this.$.passwordRepeatField.focus();
+          }
+        },
+        _passwordFieldRepeatKeydown: function(event) {
+          if (event.which === 13) { // Enter key
+            this.signup();
           }
         },
         signup: function() {
           var self = this;
           
           // TODO: Check for valid username/password
-          if (!self.usernameField.value || !self.passwordField.value) {
+          if (!self.$.usernameField.value || !self.$.passwordField.value) {
             // TODO: Show error prompt
             return;
           }
           
-          var username = self.usernameField.value;
-          var password = self.passwordField.value;
+          var username = self.$.usernameField.value;
+          var password = self.$.passwordField.value;
           
           require(['page/page', 'assets/hash'], function(page, hash) {
           
