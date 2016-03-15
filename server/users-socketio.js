@@ -4,18 +4,22 @@ var SocketioJwt  = require('socketio-jwt');
 var UnauthorizedError = require('socketio-jwt/lib/UnauthorizedError');
 var Node         = require('yarnball/core/node');
 
-function Users_SocketIO(users, socketio) {
+function Users_SocketIO(users, socketio, log) {
   this._users    = users;
   this._socketio = socketio;
   this._userNamespaces = new Map();
+  this._log = log ? log.child({object: 'users-socketio'}) : null;
 }
 
 Users_SocketIO.prototype.setup = function() {
   var self = this;
   
+  if (self._log) self._log.info('Setting up users-socketio..');
+  
   return self._users.getUsernodes()
   
   .then(function(usernodes) {
+    if (self._log) self._log.info('Got ' + usernodes.length + ' usernodes.');
     return Promise.all(usernodes.map(function(usernode) {
       return self._createUserNamespace(usernode).then(function(userNamespace) {
         self._userNamespaces.set(Node.toHex(usernode), userNamespace);
@@ -121,7 +125,11 @@ Users_SocketIO.prototype._login = function(params, callback) {
 Users_SocketIO.prototype._createUserNamespace = function(usernode) {
   var self = this;
   
+  if (self._log) self._log.info({usernode: Node.toHex(usernode)}, 'Creating socketio namespace for usernode..');
+  
   return self._users.getUserWeb(usernode).then(function(userWeb) {
+    if (self._log) self._log.info({usernode: Node.toHex(usernode)}, 'Got user web for usernode.');
+    
     var namespace = self._socketio.of('/' + Node.toHex(usernode));
     
     namespace.use(SocketioJwt.authorize({
@@ -129,21 +137,22 @@ Users_SocketIO.prototype._createUserNamespace = function(usernode) {
       handshake: true,
       success: function(data, accept) {
         if (data.decoded_token.usernode !== Node.toHex(usernode)) {
-          console.log('Client authorized only for user "' + data.decoded_token.username + '" attempted to connect to user "' + Node.toHex(usernode) + '".');
+          if (self._log) self._log.info({usernode: Node.toHex(usernode), remoteAddress: data.handshake.address}, 'Client authorized only for user "' + data.decoded_token.username + '" attempted to connect to user "' + Node.toHex(usernode) + '".');
           accept(new UnauthorizedError('not_authorized_for_user', {message: 'Not authorized for this user.'}));
         } else {
+          if (self._log) self._log.info({usernode: Node.toHex(usernode), remoteAddress: data.handshake.address}, 'Client authorized for user socketio namespace.');
           accept();
         }
       },
     }));
     
     namespace.on('connection', function(connection) {
-      console.log('Client connected to user namespace "' + Node.toHex(usernode) + '".');
+      if (self._log) self._log.info({usernode: Node.toHex(usernode), remoteAddress: connection.handshake.address}, 'Client connected to user socketio namespace.');
       var webServer = Web_SocketIO.Server(connection, userWeb);
     });
     
     namespace.on('error', function(error) {
-      console.log(error);
+      if (self._log) self._log.warn({usernode: Node.toHex(usernode), error: error}, 'An error occurred on a socketio user namespace.');
     });
     
     return namespace;
@@ -167,6 +176,6 @@ Users_SocketIO.prototype._validateUserToken = function(params, callback) {
   });
 }
 
-module.exports = function(users, socketio) {
-  return new Users_SocketIO(users, socketio);
+module.exports = function(users, socketio, log) {
+  return new Users_SocketIO(users, socketio, log);
 }

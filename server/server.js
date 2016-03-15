@@ -2,6 +2,27 @@ var express  = require('express');
 var http     = require('http');
 var SocketIO = require('socket.io');
 var yargs    = require('yargs');
+var bunyan   = require('bunyan');
+
+var log = bunyan.createLogger({
+  name: 'yarnball-site',
+  streams: [
+    {
+      stream: process.stdout,
+      level: 'info',
+    },
+    {
+      stream: process.stderr,
+      level: 'error',
+    },
+    {
+      type: 'rotating-file',
+      path: 'logs/server.log',
+      level: 'info',
+      count: 4,
+    }
+  ],
+});
 
 var app = express();
 var server = http.Server(app);
@@ -17,17 +38,28 @@ if (yargs.argv['serve-static']) {
 
 var defaultWeb = WebFile({namesPath: './node_names.txt', linksPath: './links.txt'});
 
-Users('./users.db', './users/', defaultWeb).then(function(users) {
-  var users_socketio = Users_SocketIO(users, socketio);
+log.info('Setting up users..');
+Users({
+  databasePath: './users.db',
+  userDataPath: './users/',
+  defaultWeb: defaultWeb,
+  log: log.child({object: 'Users'}),
+}).then(function(users) {
+  log.info('Setting up users socketio..');
+  var users_socketio = Users_SocketIO(users, socketio, log);
   return users_socketio.setup();
 })
 
 .then(function() {
-  server.listen(3000, function() {
-    console.log('listening on port 3000');
+  log.info('Users ready.');
+  
+  var port = 3000;
+  log.info({port: port}, 'Start listening..');
+  server.listen(port, function() {
+    log.info({port: port}, 'Now listening.');
   });
 })
 
 .catch(function(error) {
-  console.error(error);
+  log.error(error);
 });
