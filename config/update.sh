@@ -1,16 +1,16 @@
 echo "Doing git pull.."
 git pull
 
-echo "Updating yarnball npm module.."
-npm update yarnball
+echo "Installing npm modules.."
+npm install
 
-echo "Updating yarnball bower component.."
-bower update yarnball
+echo "Installing bower components.."
+bower install
 
 echo "Building static assets.."
 gulp static
 
 echo "Restarting server.."
-systemctl restart yarnball
+sudo systemctl restart yarnball
 
 echo "Done."
