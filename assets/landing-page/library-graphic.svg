@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="280"
+   height="120"
+   viewBox="0 0 280 120"
+   id="svg5340"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="library-graphic.svg">
+  <defs
+     id="defs5342" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="295.60278"
+     inkscape:cy="137.74181"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="997"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5345">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-932.36212)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16.25000191px;line-height:125%;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;fill:#d7d7d7;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="10.339776"
+       y="957.61548"
+       id="text5267"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5269"
+         x="10.339776"
+         y="957.61548">var web = Web();</tspan><tspan
+         sodipodi:role="line"
+         x="10.339776"
+         y="977.92798"
+         id="tspan5271">web.setLinks({from: cookie,</tspan><tspan
+         sodipodi:role="line"
+         x="10.339776"
+         y="998.24048"
+         id="tspan5275">  via: is,</tspan><tspan
+         sodipodi:role="line"
+         x="10.339776"
+         y="1018.553"
+         id="tspan5277">  to: food});</tspan><tspan
+         sodipodi:role="line"
+         x="10.339776"
+         y="1038.8655"
+         id="tspan5273">web.query(null, is food);</tspan></text>
+    <text
+       transform="scale(0.79374391,1.2598522)"
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:116.57289886px;line-height:125%;font-family:'Titillium Web';-inkscape-font-specification:'Titillium Web';letter-spacing:0px;word-spacing:0px;display:inline;fill:#999999;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="87.94767"
+       y="818.14526"
+       id="text5179"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5181"
+         x="87.94767"
+         y="818.14526">&lt; &gt;</tspan></text>
+  </g>
+</svg>

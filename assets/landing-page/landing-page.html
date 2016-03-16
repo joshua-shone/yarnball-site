@@ -1,10 +1,15 @@
 <link rel="import" href="/bower_components/polymer/polymer.html">
 
-<link rel="import" href="/bower_components/iron-icons/hardware-icons.html">
-
+<link href='https://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Ubuntu'         rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Titillium+Web'  rel='stylesheet' type='text/css'>
 <link rel="import" href="landing-page-styles.html">
 
 <link rel="import" href="/assets/user-session-status/user-session-status.html">
+
+<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="/bower_components/iron-icons/av-icons.html">
+<link rel="import" href="/bower_components/iron-icons/communication-icons.html">
 
 <link rel="import" href="/bower_components/yarnball/widgets/web/web.html">
 <link rel="import" href="/bower_components/yarnball/widgets/node/node.html">
@@ -17,36 +22,79 @@
   <template>
     
     <section class="title">
-      <div class="title">yarnball</div>
-      <div class="beta-label">BETA</div>
+      <img class="title-image" src="logo.svg">
+      <yb-user-session-status id="userSessionStatus"></yb-user-session-status>
     </section>
-    
-    <yb-user-session-status id="userSessionStatus"></yb-user-session-status>
     
     <section class="hero">
-    
-      <img class="hero-triple" src="hero-triple.svg" />
-
-      <div class="hero-button-container">
-        <a id="begin-button" class="hero-button" href="/scratchpad">
+      <div class="hero-nav">
+        <paper-button class="hero-nav-button hero-nav-button-begin" on-tap="begin">
+          <iron-icon icon="av:play-arrow"></iron-icon>
           Begin
-          <iron-icon icon="hardware:keyboard-arrow-right"></iron-icon>
-        </a>
-        <a id="intro-button" class="hero-button" href="/">
+        </paper-button>
+        <paper-button class="hero-nav-button hero-nav-button-intro">
+          <iron-icon icon="communication:chat-bubble"></iron-icon>
           Intro
-          <iron-icon icon="hardware:keyboard-arrow-down"></iron-icon>
-        </a>
+        </paper-button>
+        <paper-button class="hero-nav-button hero-nav-button-api">
+          <iron-icon icon="icons:code"></iron-icon>
+          API
+        </paper-button>
       </div>
+    
+      <img class="hero-image" src="hero.svg">
       
-      <div class="hero-blurb">
-        Yarnball is a prototype for making data without data-types. Strings, arrays and objects do not exist built-in, but they can be made, along with anything, on the basis of Nodes and Links.
+      <div class="hero-cards">
+        <span class="hero-card">
+          <label>Set</label>
+          <img src="hero-card-set.svg">
+        </span>
+        <span class="hero-card">
+          <label>Chain</label>
+          <img src="hero-card-chain.svg">
+        </span>
+        <span class="hero-card">
+          <label>Tree</label>
+          <img src="hero-card-tree.svg">
+        </span>
+        <span class="hero-card">
+          <label>Multi-set</label>
+          <img src="hero-card-multiset.svg">
+        </span>
+        <span class="hero-card">
+          <label>List</label>
+          <img src="hero-card-list.svg">
+        </span>
+        <span class="hero-card">
+          <label>Map</label>
+          <img src="hero-card-map.svg">
+        </span>
       </div>
     </section>
+    
+    <section class="yarnball-is">
+      <h2 class="yarnball-is-heading">Yarnball is..</h2>
+      <div class="yarnball-is-cards">
+        <span class="yarnball-is-card">
+          <img src="library-graphic.svg">
+          <label>a graph-based database library</label>
+        </span>
+        <span class="yarnball-is-card">
+          <img src="gui-graphic.svg">
+          <label>a graphical user-interface</label>
+        </span>
+      </div>
+    </section>
+    
+    <div class="intro-separator">
+      <iron-icon icon="communication:chat-bubble"></iron-icon>
+      <span>Intro</span>
+    </div>
     
     <label id="first-intro-element" class="intro-label">Building Blocks</label>
   
     <section class="intro-section first-intro-section">
-    
+      
       <div class="intro-card-group">
         <div class="intro-card">
           <div class="intro-card-content">
@@ -153,6 +201,11 @@
       Polymer({
         is: 'yb-landing-page',
         behaviors: [WebSource],
+        begin: function() {
+          require(['page/page'], function(page) {
+            page('/scratchpad');
+          });
+        },
       });
     })();
   </script>
