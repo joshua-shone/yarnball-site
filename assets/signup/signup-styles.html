@@ -1,20 +1,92 @@
 <dom-module id="signup-styles">
-<template>
-<style>
-:host .container {
-  width: 400px;
-  margin-top: 100px;
-  margin-left: auto;
-  margin-right: auto; }
-  :host .container #usernameField {
-    margin-bottom: 10px; }
-  :host .container #signupButton {
-    background-color: #78a4da;
-    color: #fff;
-    margin-top: 50px;
-    width: 100%;
-    text-transform: none; }
-
-</style>
-</template>
+  <template>
+    <style>
+      :host .signup-logo {
+        display: block;
+        margin: 0 auto;
+        width: 200px;
+        max-width: 45%;
+        margin-top: 2vw;
+        margin-bottom: 7vw;
+      }
+      @media (min-width: 425px) {
+        :host .signup-logo {
+          margin-top: 10px;
+          margin-bottom: 20px;
+        }
+      }
+      
+      :host .signup-form {
+        display: block;
+        margin: 0 auto;
+        margin-top: 7vw;
+        width: 400px;
+        max-width: 100%;
+      }
+      @media (min-width: 425px) {
+        :host .signup-form {
+          margin-top: 20px;
+        }
+      }
+      
+      :host paper-input {
+        width: 100%;
+        margin-bottom: 4vw;
+        padding: 1vw;
+      }
+      :host .signup-form paper-input /deep/ paper-input-container {
+        padding: 0.8vw;
+      }
+      :host .signup-form paper-input /deep/ input {
+        font-size: 6vw;
+        line-height: 3vw;
+      }
+      :host .signup-form paper-input /deep/ .floated-label-placeholder {
+        font-size: 6vw;
+        line-height: 7vw;
+      }
+      :host .signup-form paper-input /deep/ label {
+        font-size: 6vw;
+        line-height: 7vw;
+      }
+      @media (min-width: 425px) {
+        :host paper-input {
+          margin-bottom: 10px;
+          padding: 5px;
+        }
+        :host .signup-form paper-input /deep/ paper-input-container {
+          padding: 5px;
+        }
+        :host .signup-form paper-input /deep/ input {
+          font-size: 16px;
+          line-height: 18px;
+        }
+        :host .signup-form paper-input /deep/ .floated-label-placeholder {
+          font-size: 16px;
+          line-height: 18px;
+        }
+        :host .signup-form paper-input /deep/ label {
+          font-size: 16px;
+          line-height: 18px;
+        }
+      }
+      
+      :host #signupButton {
+        display: block;
+        background-color: #78a4da;
+        color: #fff;
+        margin: 0 auto;
+        margin-top: 16vw;
+        font-size: 6vw;
+        max-width: 95%;
+        text-transform: none;
+      }
+      @media (min-width: 425px) {
+        :host #signupButton {
+          margin-top: 50px;
+          font-size: 20px;
+        }
+      }
+    </style>
+  </template>
 </dom-module>

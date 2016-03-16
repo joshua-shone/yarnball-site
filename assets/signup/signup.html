@@ -10,7 +10,8 @@
   <style include="signup-styles"></style>
 
   <template>
-    <div class="container">
+    <img class="signup-logo" src="signup-logo.svg">
+    <div class="signup-form">
       <paper-input id="usernameField" label="username" required on-input="usernameChanged" on-keydown="_usernameFieldKeydown"></paper-input>
       <paper-input id="passwordField" label="password" type="password" required on-keydown="_passwordFieldKeydown"></paper-input>
       <paper-input id="passwordRepeatField" label="password (repeat)" type="password" required on-keydown="_passwordFieldRepeatKeydown"></paper-input>
