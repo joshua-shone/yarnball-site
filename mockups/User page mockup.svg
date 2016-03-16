@@ -26,15 +26,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1"
-     inkscape:cx="979.40377"
-     inkscape:cy="673.79736"
+     inkscape:cx="1176.4038"
+     inkscape:cy="709.79736"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
      inkscape:window-width="1920"
-     inkscape:window-height="994"
-     inkscape:window-x="0"
+     inkscape:window-height="997"
+     inkscape:window-x="1920"
      inkscape:window-y="0"
      inkscape:window-maximized="1" />
   <metadata
@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -70,28 +70,28 @@
     <circle
        style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#858585;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:24;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
        id="path6025"
-       cx="940.58636"
+       cx="932.58636"
        cy="174.56624"
        r="19.602192" />
     <path
        style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#858585;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:24;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-       d="m 932.07089,202.43348 15.11878,0 c 13.61068,0 24.56802,10.95734 24.56802,24.56801 l 0,15.11879 -64.25482,0 0,-15.11879 c 0,-13.61067 10.95735,-24.56801 24.56802,-24.56801 z"
+       d="m 924.07089,202.43348 15.11878,0 c 13.61068,0 24.56802,10.95734 24.56802,24.56801 l 0,15.11879 -64.25482,0 0,-15.11879 c 0,-13.61067 10.95735,-24.56801 24.56802,-24.56801 z"
        id="rect6027"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="sssccss" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:47.92147446px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#313131;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
-       x="1004.6826"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:47.92147446px;line-height:125%;font-family:Roboto;-inkscape-font-specification:Roboto;letter-spacing:0px;word-spacing:0px;fill:#313131;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="990.68262"
        y="231.11243"
        id="text6030"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan6032"
-         x="1004.6826"
+         x="990.68262"
          y="231.11243">Peach</tspan><tspan
          sodipodi:role="line"
-         x="1004.6826"
+         x="990.68262"
          y="291.01428"
          id="tspan6034" /></text>
     <rect
