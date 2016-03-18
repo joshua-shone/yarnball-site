@@ -1,9 +1,5 @@
 var gulp = require('gulp');
 
-// Compilation
-var sass        = require('gulp-sass');
-var styleModule = require('gulp-style-modules');
-
 // Minification
 // var htmlmin  = require('gulp-htmlmin');
 var cssnano  = require('gulp-cssnano');
@@ -13,6 +9,7 @@ var svgmin   = require('gulp-svgmin');
 // Utilities
 var gulp_if = require('gulp-if');
 var spawn   = require('child_process').spawn;
+var vfs     = require('vinyl-fs');
 
 // Dependencies
 // var bowerFiles = require('main-bower-files');
@@ -21,8 +18,7 @@ gulp.task('static', [
   'static-index',
   'static-html',
   'static-js',
-  'static-sass',
-  'static-components-sass',
+  'static-css',
   'static-png',
   'static-svg',
   'static-bower',
@@ -68,19 +64,9 @@ gulp.task('static-js', function() {
 //     .pipe(browserSync.stream());
 });
 
-gulp.task('static-sass', function() {
-  return gulp.src('assets/*.sass')
-    .pipe(gulp_if('!_*.sass', sass()))
+gulp.task('static-css', function() {
+  return gulp.src('assets/**/*.css')
     .pipe(cssnano())
-    .pipe(gulp.dest('dist/assets/'))
-//     .pipe(browserSync.stream());
-});
-
-gulp.task('static-components-sass', function() {
-  return gulp.src('assets/*/*.sass')
-    .pipe(gulp_if('!_*.sass', sass()))
-    .pipe(cssnano())
-    .pipe(styleModule())
     .pipe(gulp.dest('dist/assets/'))
 //     .pipe(browserSync.stream());
 });
@@ -100,9 +86,9 @@ gulp.task('static-svg', function() {
 
 gulp.task('static-bower', function() {
 //   gulp.src(bowerFiles())
-  return gulp.src('bower_components/**/*')
+  return vfs.src('bower_components/**/*')
 //     .pipe(gulp_if('*.js', uglifyjs()))
 //     .pipe(gulp_if('*.html', htmlmin()))
-    .pipe(gulp_if('*.css', cssnano()))
-    .pipe(gulp.dest('dist/bower_components/'));
+//     .pipe(gulp_if('*.css', cssnano()))
+    .pipe(vfs.dest('dist/bower_components/'));
 });

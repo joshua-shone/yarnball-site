@@ -26,6 +26,7 @@
     "gulp-svgmin": "^1.2.2",
     "gulp-uglify": "^1.5.3",
     "socket.io-client": "^1.4.5",
+    "vinyl-fs": "^2.4.2",
     "yargs": "^4.2.0",
     "yarnball": "github:yarnball-dev/yarnball"
   }
