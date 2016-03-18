@@ -6,3 +6,4 @@ bower_components/
 dist/
 users/
 users.db/
+logs/
