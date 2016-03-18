@@ -212,7 +212,7 @@
         },
         onScroll: function(event) {
           var firstIntroPosition = this.$['first-intro-element'].getBoundingClientRect();
-          this.navBar.classList.toggle('hidden', firstIntroPosition.top > 0);
+          this.navBar.classList.toggle('hidden', firstIntroPosition.top >= 0);
         },
         begin: function() {
           require(['page/page'], function(page) {
