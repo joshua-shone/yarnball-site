@@ -7,6 +7,9 @@ npm install
 echo "Installing bower components.."
 bower install
 
+echo "Updating yarnball bower component.."
+bower --force update yarnball
+
 echo "Building static assets.."
 gulp static
 
