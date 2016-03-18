@@ -1,0 +1,92 @@
+<dom-module id="nav-bar-styles">
+  <template>
+    <style>
+      :host {
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+        position: relative;
+        display: flex;
+      }
+      
+      :host #homeLink {
+        display: inline-block;
+        background-image: url(logo.svg);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        height: 100%;
+        width:  80px;
+      }
+      :host #homeLink:hover {
+        background-color: #E2F4FF;
+      }
+      
+      :host .nav-button {
+        display: inline-flex;
+        height: 100%;
+        width:  100px;
+        text-align: center;
+        text-decoration: none;
+        color: #505050;
+        box-sizing: border-box;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Roboto', sans-serif;
+        font-size: 20px;
+      }
+      :host .nav-button:hover {
+        background-color: #E2F4FF;
+        color: #4E4E4E;
+      }
+      :host .nav-button iron-icon {
+        margin-right: 4px;
+      }
+      
+      :host .for-home {
+        display: none;
+      }
+      :host.at-home .for-home {
+        display: inline-flex;
+      }
+      
+      :host .begin-button iron-icon {
+        width:  30px;
+        height: 30px;
+      }
+      :host .intro-button iron-icon {
+        width:  21px;
+        height: 21px;
+      }
+      :host .api-button {
+        width: 80px;
+      }
+      :host .api-button iron-icon {
+        width:  30px;
+        height: 30px;
+      }
+      
+      :host .breadcrumb-separator {
+        height: 100%;
+        width: 40px;
+        color: #505050;
+      }
+      
+      :host .for-scratchpad {
+        display: none;
+      }
+      :host.at-scratchpad .for-scratchpad {
+        display: inline-flex;
+      }
+      
+      :host .surface-button {
+        width: auto;
+        padding: 5px;
+      }
+      :host .surface-button img {
+        width:  30px;
+        height: 30px;
+        margin-right: 5px;
+      }
+    </style>
+  </template>
+</dom-module>

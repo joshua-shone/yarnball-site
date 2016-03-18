@@ -19,6 +19,10 @@
       Polymer({
         is: 'yb-scratchpad',
         behaviors: [WebSource],
+        showPage: function(navBar) {
+          navBar.classList.remove('hidden');
+          navBar.classList.remove('floating');
+        },
       });
     })();
   </script>

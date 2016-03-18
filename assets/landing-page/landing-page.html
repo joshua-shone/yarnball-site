@@ -200,6 +200,10 @@
       Polymer({
         is: 'yb-landing-page',
         behaviors: [WebSource],
+        showPage: function(navBar) {
+          navBar.classList.add('hidden');
+          navBar.classList.add('floating');
+        },
         begin: function() {
           require(['page/page'], function(page) {
             page('/scratchpad');

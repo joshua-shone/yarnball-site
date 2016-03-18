@@ -3,3 +3,30 @@ html, body {
   padding: 0;
   height:  100%;
 }
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+}
+
+#nav-bar {
+  display: flex;
+  height: 50px;
+  z-index: 3;
+}
+
+#nav-bar.floating {
+  position: fixed;
+  top:   0;
+  left:  0;
+  right: 0;
+}
+#nav-bar.hidden {
+  display: none;
+}
+
+iron-pages {
+  flex-grow: 1;
+  position: relative;
+}

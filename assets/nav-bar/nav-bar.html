@@ -1,0 +1,59 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<link rel="import" href="nav-bar-styles.html">
+
+<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="/bower_components/iron-icons/av-icons.html">
+<link rel="import" href="/bower_components/iron-icons/communication-icons.html">
+
+<dom-module id="yb-nav-bar">
+
+  <style include="nav-bar-styles"></style>
+  
+  <template>
+    <a href="/" id="homeLink"></a>
+    
+    <!-- Home buttons -->
+    <a class="nav-button for-home begin-button" href="/scratchpad">
+      <iron-icon icon="av:play-arrow"></iron-icon>
+      Begin
+    </a>
+    <a class="nav-button for-home intro-button" href="#">
+      <iron-icon icon="communication:chat-bubble"></iron-icon>
+      Intro
+    </a>
+    <a class="nav-button for-home api-button" href="/scratchpad">
+      <iron-icon icon="icons:code"></iron-icon>
+      API
+    </a>
+    
+    <!-- Scratchpad -->
+    <iron-icon class="breadcrumb-separator for-scratchpad" icon="icons:chevron-right"></iron-icon>
+    
+    <a class="nav-button for-scratchpad surface-button" href="/scratchpad">
+      <img src="surface-icon.svg">
+      Scratchpad
+    </a>
+  </template>
+  
+  <script>
+    (function() {
+      Polymer({
+        is: 'yb-nav-bar',
+        ready: function() {
+          var self = this;
+          self.classList.toggle('at-home',       window.location.pathname === '/');
+          self.classList.toggle('at-scratchpad', window.location.pathname === '/scratchpad');
+          require(['page/page'], function(page) {
+            page('*', function(context, next) {
+              self.classList.toggle('at-home',       context.path === '/');
+              self.classList.toggle('at-scratchpad', context.path === '/scratchpad');
+              next();
+            });
+          });
+        },
+      });
+    })();
+  </script>
+  
+</dom-module>

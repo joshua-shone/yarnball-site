@@ -41,6 +41,9 @@
             self.$.usernameField.focus();
           }, 500);
         },
+        showPage: function(navBar) {
+          navBar.classList.add('hidden');
+        },
         checkUsernameTaken: function(username) {
           var self = this;
           if (self.users) {
