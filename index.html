@@ -61,10 +61,6 @@
         var navBar    = document.getElementById('nav-bar');
         var mainPages = document.getElementById('main-pages');
         
-//         for (var i=0; i < mainPages.childNodes.length; i++) {
-//           mainPages.childNodes[i].navBar = navBar;
-//         }
-      
         var userPages        = new Map();
         var userSurfacePages = new Map();
         
@@ -106,28 +102,41 @@
           
           mainPages.select(usernode + '/' + surface);
         }
-      
+        
+        function hideSelectedPage() {
+          var selectedPage = mainPages.querySelector('.iron-selected');
+          if (selectedPage && 'hidePage' in selectedPage) {
+            selectedPage.hidePage();
+          }
+        }
+        
         require(['page/page', 'socket.io-client/socket.io', 'yarnball/core/node'], function(page, SocketIO, Node) {
         
           page('/', function(context) {
+            hideSelectedPage();
             var landingPage = mainPages.querySelector('[page-name="landing-page"]');
             landingPage.showPage(navBar);
             mainPages.select('landing-page');
           });
           page('/scratchpad', function(context) {
+            hideSelectedPage();
             var scratchpad = mainPages.querySelector('[page-name="scratchpad"]');
             scratchpad.showPage(navBar);
             mainPages.select('scratchpad');
           });
           page('/login', function(context) {
+            hideSelectedPage();
             mainPages.select('login');
           });
           page('/signup', function(context) {
+            hideSelectedPage();
             var signupPage = mainPages.querySelector('[page-name="signup"]');
             signupPage.showPage(navBar);
             mainPages.select('signup');
           });
           page('*', function(context) {
+          
+            hideSelectedPage();
           
             function splitPath(path) {
               return path.split('/').filter(function(element) {

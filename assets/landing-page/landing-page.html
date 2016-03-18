@@ -203,6 +203,16 @@
         showPage: function(navBar) {
           navBar.classList.add('hidden');
           navBar.classList.add('floating');
+          this.navBar = navBar;
+          this.onScroll = this.onScroll.bind(this);
+          document.addEventListener('scroll', this.onScroll);
+        },
+        hidePage: function() {
+          document.removeEventListener('scroll', this.onScroll);
+        },
+        onScroll: function(event) {
+          var firstIntroPosition = this.$['first-intro-element'].getBoundingClientRect();
+          this.navBar.classList.toggle('hidden', firstIntroPosition.top > 0);
         },
         begin: function() {
           require(['page/page'], function(page) {
