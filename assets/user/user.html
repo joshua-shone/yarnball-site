@@ -131,6 +131,10 @@
             });
           });
         },
+        showPage: function(navBar) {
+          navBar.classList.remove('hidden');
+          navBar.classList.remove('floating');
+        },
         logout: function() {
           window.localStorage.removeItem('userSession');
           // TODO: Disconnect socket
@@ -168,7 +172,7 @@
         _goToSurface: function(event, detail) {
           var self = this;
           require(['page/page'], function(page) {
-            page(self._userSession.username + '/' + event.model.item.node);
+            page('/' + self._userSession.username + '/' + event.model.item.node);
           });
         },
         _deleteSurface: function(event, detail) {

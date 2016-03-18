@@ -64,7 +64,16 @@
         var userPages        = new Map();
         var userSurfacePages = new Map();
         
+        function hideSelectedPage() {
+          var selectedPage = mainPages.querySelector('.iron-selected');
+          if (selectedPage && 'hidePage' in selectedPage) {
+            selectedPage.hidePage();
+          }
+        }
+        
         function goToUserPage(usernode) {
+          hideSelectedPage();
+        
           var userPage = userPages.get(usernode);
           if (!userPage) {
             userPage = document.createElement('yb-user');
@@ -80,10 +89,13 @@
             userPages.set(usernode, userPage);
           }
           
+          userPage.showPage(navBar);
           mainPages.select(usernode);
         }
         
         function goToUserSurfacePage(usernode, surface) {
+          hideSelectedPage();
+        
           var userSurfacePage = userSurfacePages.get(surface);
           if (!userSurfacePage) {
             userSurfacePage = document.createElement('yb-user-surface');
@@ -100,36 +112,50 @@
             userSurfacePages.set(surface, userSurfacePage);
           }
           
+          userSurfacePage.showPage(navBar);
           mainPages.select(usernode + '/' + surface);
-        }
-        
-        function hideSelectedPage() {
-          var selectedPage = mainPages.querySelector('.iron-selected');
-          if (selectedPage && 'hidePage' in selectedPage) {
-            selectedPage.hidePage();
-          }
         }
         
         require(['page/page', 'socket.io-client/socket.io', 'yarnball/core/node'], function(page, SocketIO, Node) {
         
           page('/', function(context) {
             hideSelectedPage();
+            context.state.yarnballPath = [];
+            context.getYarnballPath = Promise.resolve(context.state.yarnballPath);
             var landingPage = mainPages.querySelector('[page-name="landing-page"]');
             landingPage.showPage(navBar);
             mainPages.select('landing-page');
           });
           page('/scratchpad', function(context) {
             hideSelectedPage();
+            context.state.yarnballPath = [{
+              type: 'surface',
+              name: 'scratchpad',
+              fullPath: '/scratchpad',
+            }];
+            context.getYarnballPath = Promise.resolve(context.state.yarnballPath);
             var scratchpad = mainPages.querySelector('[page-name="scratchpad"]');
             scratchpad.showPage(navBar);
             mainPages.select('scratchpad');
           });
           page('/login', function(context) {
             hideSelectedPage();
+            context.state.yarnballPath = [{
+              type: 'login',
+              name: 'login',
+              fullPath: '/login',
+            }];
+            context.getYarnballPath = Promise.resolve(context.state.yarnballPath);
             mainPages.select('login');
           });
           page('/signup', function(context) {
             hideSelectedPage();
+            context.state.yarnballPath = [{
+              type: 'signup',
+              name: 'signup',
+              fullPath: '/signup',
+            }];
+            context.getYarnballPath = Promise.resolve(context.state.yarnballPath);
             var signupPage = mainPages.querySelector('[page-name="signup"]');
             signupPage.showPage(navBar);
             mainPages.select('signup');
@@ -146,31 +172,54 @@
             
             var pathElements = splitPath(context.path);
             if (pathElements.length > 0) {
+              
               var pathBase = pathElements[0];
               
-              var socketioUsers = SocketIO();
-              socketioUsers.on('connect', function() {
-                socketioUsers.emit('getUsernodeForName', pathBase, function(result) {
-                  if (!result) {
-                    // TODO: Show 404
-                    return;
-                  }
-                
-                  if (typeof result === 'object' && 'error' in result) {
-                    console.error(result.error);
-                    // TODO: Show error page
-                    return;
-                  }
-                  
-                  var usernode = result;
-                  if (pathElements.length === 1) {
-                    goToUserPage(usernode);
-                  } else if (pathElements.length === 2) {
-                    if (Node.isHex(pathElements[1])) {
-                      var surface = pathElements[1];
-                      goToUserSurfacePage(usernode, surface);
+              context.getYarnballPath = new Promise(function(resolve, reject) {
+              
+                var socketioUsers = SocketIO();
+                socketioUsers.on('connect', function() {
+                  socketioUsers.emit('getUsernodeForName', pathBase, function(result) {
+                    if (!result) {
+                      // TODO: Show 404
+                      reject('404');
+                      return;
                     }
-                  }
+                  
+                    if (typeof result === 'object' && 'error' in result) {
+                      console.error(result.error);
+                      // TODO: Show error page
+                      reject('404');
+                      return;
+                    }
+                    
+                    var usernode = result;
+                    
+                    context.state.yarnballPath = [{
+                      type: 'user',
+                      name: pathBase,
+                      fullPath: '/' + pathBase,
+                    }];
+                    
+                    if (pathElements.length === 1) {
+                      goToUserPage(usernode);
+                    } else if (pathElements.length === 2) {
+                      if (Node.isHex(pathElements[1])) {
+                        
+                        context.state.yarnballPath.push({
+                          type: 'surface',
+                          name: pathElements[1],
+                          fullPath: '/' + pathBase + '/' + pathElements[1],
+                        });
+                        
+                        var surface = pathElements[1];
+                        goToUserSurfacePage(usernode, surface);
+                      }
+                    }
+                    
+                    context.save();
+                    resolve(context.state.yarnballPath);
+                  });
                 });
               });
             }

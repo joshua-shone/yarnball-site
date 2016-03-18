@@ -27,13 +27,33 @@
       API
     </a>
     
-    <!-- Scratchpad -->
-    <iron-icon class="breadcrumb-separator for-scratchpad" icon="icons:chevron-right"></iron-icon>
-    
-    <a class="nav-button for-scratchpad surface-button" href="/scratchpad">
-      <img src="surface-icon.svg">
-      Scratchpad
-    </a>
+    <template is="dom-repeat" items={{path}}>
+      <iron-icon class="breadcrumb-separator" icon="icons:chevron-right"></iron-icon>
+      <template is="dom-if" if="[[_isType(item, 'surface')}}">
+        <a class="nav-button surface-button" href="{{item.fullPath}}">
+          <img src="surface-icon.svg">
+          <span>{{item.name}}</span>
+        </a>
+      </template>
+      <template is="dom-if" if="[[_isType(item, 'user')}}">
+        <a class="nav-button" href="{{item.fullPath}}">
+          <img src="user-icon.svg">
+          <span>{{item.name}}</span>
+        </a>
+      </template>
+      <template is="dom-if" if="[[_isType(item, 'signup')}}">
+        <a class="nav-button" href="{{item.fullPath}}">
+          <img src="user-icon.svg">
+          <span>Sign-up</span>
+        </a>
+      </template>
+      <template is="dom-if" if="[[_isType(item, 'login')}}">
+        <a class="nav-button" href="{{item.fullPath}}">
+          <img src="user-icon.svg">
+          <span>Log-in</span>
+        </a>
+      </template>
+    </template>
   </template>
   
   <script>
@@ -42,15 +62,20 @@
         is: 'yb-nav-bar',
         ready: function() {
           var self = this;
-          self.classList.toggle('at-home',       window.location.pathname === '/');
-          self.classList.toggle('at-scratchpad', window.location.pathname === '/scratchpad');
+          self.path = [];
+          self.classList.toggle('at-home', window.location.pathname === '/');
           require(['page/page'], function(page) {
             page('*', function(context, next) {
-              self.classList.toggle('at-home',       context.path === '/');
-              self.classList.toggle('at-scratchpad', context.path === '/scratchpad');
               next();
+              self.classList.toggle('at-home', context.path === '/');
+              context.getYarnballPath.then(function(path) {
+                self.set('path', path);
+              });
             });
           });
+        },
+        _isType(pathItem, type) {
+          return pathItem.type === type;
         },
       });
     })();

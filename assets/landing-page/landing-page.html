@@ -201,10 +201,10 @@
         is: 'yb-landing-page',
         behaviors: [WebSource],
         showPage: function(navBar) {
-          navBar.classList.add('hidden');
           navBar.classList.add('floating');
           this.navBar = navBar;
           this.onScroll = this.onScroll.bind(this);
+          this.onScroll();
           document.addEventListener('scroll', this.onScroll);
         },
         hidePage: function() {
