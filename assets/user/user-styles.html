@@ -1,71 +1,108 @@
 <dom-module id="user-styles">
-<template>
-<style>
-:host #container {
-  width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 30px; }
-  :host #container #user {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: center;
-    font-size: 50px;
-    color: #888; }
-    :host #container #user #userIcon {
-      width: 70px;
-      height: 70px; }
-  :host #container #surfaces .surface-list-entry {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    display: flex;
-    flex-direction: row; }
-    :host #container #surfaces .surface-list-entry .surface-status {
-      padding: 5px;
-      background-color: #ddd;
-      flex-grow: 1; }
-    :host #container #surfaces .surface-list-entry .surface-list-delete-button {
-      width: 40px;
-      min-width: 40px;
-      height: 40px;
-      color: #888;
-      padding: 8px; }
-    :host #container #surfaces .surface-list-entry .surface-list-delete-button:hover,
-    :host #container #surfaces .surface-list-entry .surface-list-delete-button:focus {
-      background-color: #FF9191;
-      color: #fff; }
-  :host #container #createSurfaceButton {
-    display: block;
-    margin-top: 15px;
-    text-transform: none;
-    background-color: #FFA500;
-    color: #fff; }
-  :host #container #createSurfaceButton:hover,
-  :host #container #createSurfaceButton:focus {
-    background-color: #FFC458; }
+  <template>
+    <style>
+      :host #container {
+        width: 500px;
+        margin-left:  auto;
+        margin-right: auto;
+        margin-top:   30px;
+      }
+      :host #container #user {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: center;
+        font-size: 50px;
+        color: #888;
+      }
+      :host #container #user #userIcon {
+        width:  70px;
+        height: 70px;
+      }
+      :host #container #surfaces .surface-list-entry {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        display: flex;
+        flex-direction: row;
+        position: relative;
+      }
+      :host #container #surfaces .surface-list-entry .surface-status {
+        padding: 5px;
+        background-color: #ddd;
+        flex-grow: 1;
+        text-transform: initial;
+        display: flex;
+        justify-content: center;
+        align-items:     center;
+      }
+      :host #container #surfaces .surface-list-entry .surface-list-button {
+        width: 40px;
+        min-width: 40px;
+        height: 40px;
+        color: #888;
+        padding: 8px;
+      }
+      :host #container #surfaces .surface-list-entry .surface-list-button.delete-button:hover,
+      :host #container #surfaces .surface-list-entry .surface-list-button.delete-button:focus {
+        background-color: #FF9191;
+        color: #fff;
+      }
+      :host #container #surfaces .surface-list-entry .surface-list-button.rename-button:hover,
+      :host #container #surfaces .surface-list-entry .surface-list-button.rename-button:focus {
+        background-color: #888;
+        color: #fff;
+      }
+      
+      :host .surface-list-entry .name-input {
+        display: none;
+      }
+      :host .surface-list-entry.editing-name .surface-name {
+        display: none;
+      }
+      :host .surface-list-entry.editing-name .name-input {
+        display: block;
+        position: absolute;
+        left:   11px;
+        top:    0;
+        right:  110px;
+        bottom: 0;
+        text-align: center;
+      }
+      
+      :host #container #createSurfaceButton {
+        display: block;
+        margin-top: 15px;
+        text-transform: none;
+        background-color: #FFA500;
+        color: #fff;
+      }
+      :host #container #createSurfaceButton:hover,
+      :host #container #createSurfaceButton:focus {
+        background-color: #FFC458;
+      }
 
-:host #logoutButton {
-  display: inline-block;
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  padding-left: 20px;
-  padding-right: 20px;
-  margin-left: 5px;
-  margin-right: 5px;
-  height: 50px;
-  padding-top: 16px;
-  text-transform: none;
-  border: 1px solid #ddd;
-  background-color: #fff;
-  color: #888; }
+      :host #logoutButton {
+        display: inline-block;
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-left: 5px;
+        margin-right: 5px;
+        height: 50px;
+        padding-top: 16px;
+        text-transform: none;
+        border: 1px solid #ddd;
+        background-color: #fff;
+        color: #888;
+      }
 
-:host #logoutButton:hover,
-:host #logoutButton:focus {
-  background-color: #8C8C8C;
-  color: #fff; }
-
-</style>
-</template>
+      :host #logoutButton:hover,
+      :host #logoutButton:focus {
+        background-color: #8C8C8C;
+        color: #fff;
+      }
+    </style>
+  </template>
 </dom-module>

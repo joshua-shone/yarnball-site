@@ -3,6 +3,7 @@
 <link rel="import" href="/bower_components/paper-button/paper-button.html">
 
 <link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="/bower_components/iron-icons/editor-icons.html">
 <link rel="import" href="/bower_components/iron-icons/social-icons.html">
 
 <link rel="import" href="/bower_components/yarnball/widgets/socketio/web-socketio.html">
@@ -99,8 +100,14 @@
       <div id="surfaces">
         <template is="dom-repeat" items="{{_surfaces}}">
           <div node$="{{item.node}}" class="surface-list-entry">
-            <paper-button class="surface-status" on-tap="_goToSurface">surface</paper-button>
-            <paper-button on-tap="_deleteSurface" class="surface-list-delete-button">
+            <paper-button class="surface-status" on-tap="_goToSurface">
+              <span class="surface-name">{{item.name}}</span>
+            </paper-button>
+            <paper-input class="name-input" value="{{item.name}}" on-change="_surfaceNameChanged" no-label-float></paper-input>
+            <paper-button on-tap="_renameSurface" class="surface-list-button rename-button">
+              <iron-icon icon="editor:mode-edit"></iron-icons>
+            </paper-button>
+            <paper-button on-tap="_deleteSurface" class="surface-list-button delete-button">
               <iron-icon icon="icons:delete"></iron-icons>
             </paper-button>
           </div>
@@ -145,16 +152,22 @@
         _onSurfaces: function(added, removed) {
           var self = this;
           
-          require(['yarnball/core/node', 'yarnball/core/node-set'], function(Node, NodeSet) {
-          
-            added.forEach(function(surface) {
-              self.push('_surfaces', {node: Node.toHex(surface)});
-            });
+          self.getWeb().then(function(web) {
+            require(['yarnball/core/node', 'yarnball/core/node-set', 'yarnball/widgets/surface/surface-web'], function(Node, NodeSet, SurfaceWeb) {
             
-            removed = NodeSet(removed);
-            self.set('_surfaces', self._surfaces.filter(function(surface) {
-              return !removed.has(Node.fromHex(surface.node));
-            }));
+              added.forEach(function(surface) {
+                var surfaceWeb = SurfaceWeb(web, surface);
+                self.push('_surfaces', {
+                  node: Node.toHex(surface),
+                  name: surfaceWeb.getName(),
+                });
+              });
+              
+              removed = NodeSet(removed);
+              self.set('_surfaces', self._surfaces.filter(function(surface) {
+                return !removed.has(Node.fromHex(surface.node));
+              }));
+            });
           });
         },
         _createSurface: function() {
@@ -173,6 +186,24 @@
           var self = this;
           require(['page/page'], function(page) {
             page('/' + self._userSession.username + '/' + event.model.item.node);
+          });
+        },
+        _renameSurface: function(event, detail) {
+          event.currentTarget.parentNode.classList.toggle('editing-name');
+          event.currentTarget.parentNode.querySelector('.name-input').focus();
+        },
+        _surfaceNameChanged: function(event) {
+          var newName = event.target.value;
+          event.currentTarget.parentNode.classList.remove('editing-name');
+          event.currentTarget.parentNode.querySelector('.surface-status').focus();
+          this.getWeb().then(function(web) {
+            require(['yarnball/widgets/surface/surface-web', 'assets/user-web', 'yarnball/core/batch', 'yarnball/core/node'], function(SurfaceWeb, UserWeb, Batch, Node) {
+              var batch = Batch(web);
+              var surface = Node.fromHex(event.model.item.node);
+              var surfaceWeb = SurfaceWeb(batch, surface);
+              surfaceWeb.setName(newName);
+              batch.apply();
+            });
           });
         },
         _deleteSurface: function(event, detail) {
